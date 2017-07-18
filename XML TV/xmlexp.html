@@ -1,0 +1,50 @@
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse:collapse;
+}
+th, td {
+  padding: 5px;
+}
+</style>
+</head>
+<body>
+<centre>
+<button type="button" onclick="loadXMLDoc()">TV - Top Trending</button>
+</centre>
+<br><br>
+<table id="Sample"></table>
+
+<script>
+function loadXMLDoc() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      myFunction(this);
+    }
+  };
+  xmlhttp.open("GET", "database.xml",true);
+  xmlhttp.send();
+}
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>Rank</th><th>NAME</th><th>IMDB_Rating</th></tr>";
+  var x = xmlDoc.getElementsByTagName("Show");
+  for (i = 0; i <x.length; i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("Rank")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+"</td><td>"+
+x[i].getElementsByTagName("IMDB_Rating")[0].childNodes[0].nodeValue +    
+"</td></tr>";
+  }
+  document.getElementById("Sample").innerHTML = table;
+}
+</script>
+
+</body>
+</html>
